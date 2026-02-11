@@ -2,15 +2,15 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import './ValentineQuestion.css'
 
 const YES_MESSAGES = [
-  "Yes! 💖",
-  "Of course! 🥰",
-  "Absolutely! 💕",
-  "100% Yes! 💗",
-  "YESSS! 🎉",
-  "YES YES YES! 💗💗",
-  "Click me already! 💘💘💘",
-  "I'm taking over! 🥰🥰🥰",
-  "YES IS THE ONLY OPTION! 💕💕💕💕",
+  "Yes!",
+  "Of course!",
+  "Absolutely!",
+  "100% Yes!",
+  "YESSS!",
+  "YES YES YES!",
+  "Click me already!",
+  "I'm taking over!",
+  "YES IS THE ONLY OPTION!",
 ]
 
 export default function ValentineQuestion({ onYes }) {
@@ -20,16 +20,16 @@ export default function ValentineQuestion({ onYes }) {
 
   const getNoText = () => {
     const texts = [
-      "No 😢",
-      "Are you sure? 🥺",
-      "Really sure? 😭",
-      "Think again! 💔",
-      "Please? 🥹",
-      "Don't do this 😿",
-      "I'll be sad 😞",
-      "Pretty please? 🌹",
-      "Last chance! 💘",
-      "You're breaking my heart 💔",
+      "No",
+      "Are you sure?",
+      "Really sure?",
+      "Think again!",
+      "Please?",
+      "Don't do this",
+      "I'll be sad",
+      "Pretty please?",
+      "Last chance!",
+      "You're breaking my heart",
     ]
     return texts[Math.min(noCount, texts.length - 1)]
   }
@@ -109,10 +109,6 @@ export default function ValentineQuestion({ onYes }) {
   return (
     <div className="valentine-q">
       <div className="valentine-q__card">
-        <div className="valentine-q__emoji">
-          {noCount === 0 ? '🥰' : noCount < 3 ? '🥺' : noCount < 6 ? '😢' : '😭'}
-        </div>
-
         <h2 className="valentine-q__title">
           Will you be my Valentine?
         </h2>
@@ -120,12 +116,12 @@ export default function ValentineQuestion({ onYes }) {
         {noCount > 0 && (
           <p className="valentine-q__plea">
             {noCount < 3
-              ? "Come on, you know you want to say yes! 💕"
+              ? "Come on, you know you want to say yes!"
               : noCount < 6
-              ? "The 'No' button is running away from you! 🏃"
+              ? "The 'No' button is running away from you!"
               : noCount < 10
-              ? "It's escaping! Just click YES! 😂"
-              : "The 'No' button has left the building! 🚀"
+              ? "It's escaping! Just click YES!"
+              : "The 'No' button has left the building!"
             }
           </p>
         )}
@@ -136,7 +132,7 @@ export default function ValentineQuestion({ onYes }) {
             onClick={handleYes}
             style={{ transform: `scale(${yesScale})` }}
           >
-            {noCount === 0 ? "Yes! 💖" : YES_MESSAGES[Math.min(noCount - 1, YES_MESSAGES.length - 1)]}
+            {noCount === 0 ? "Yes!" : YES_MESSAGES[Math.min(noCount - 1, YES_MESSAGES.length - 1)]}
           </button>
 
           <button

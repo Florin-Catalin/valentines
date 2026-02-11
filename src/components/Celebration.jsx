@@ -11,10 +11,10 @@ import './Celebration.css'
  */
 
 const MEMORIES = [
-  { src: '/memories/photo1.jpg', caption: 'Our first date 💕' },
-  { src: '/memories/photo2.jpg', caption: 'That perfect day 🌅' },
-  { src: '/memories/photo3.jpg', caption: 'Us being us 😄' },
-  { src: '/memories/photo4.jpg', caption: 'My favorite moment 💖' },
+  { src: '/memories/photo1.jpg', caption: 'Our first date' },
+  { src: '/memories/photo2.jpg', caption: 'That perfect day' },
+  { src: '/memories/photo3.jpg', caption: 'Us being us' },
+  { src: '/memories/photo4.jpg', caption: 'My favorite moment' },
 ]
 
 function Confetti() {
@@ -104,8 +104,7 @@ export default function Celebration() {
 
       <div className={`celebration__content ${showContent ? 'celebration__content--visible' : ''}`}>
         <div className="celebration__header">
-          <div className="celebration__big-heart">💖</div>
-          <h1 className="celebration__title">Yaaaay! 🎉</h1>
+          <h1 className="celebration__title">Yaaaay!</h1>
           <p className="celebration__subtitle">I knew you'd say yes!</p>
         </div>
 
@@ -113,12 +112,12 @@ export default function Celebration() {
           <p>
             You just made me the happiest person in the world! 
             This Valentine's Day and every day after, I promise to love you, 
-            make you laugh, and always keep the Wi-Fi password updated. 😄💕
+            make you laugh, and always keep the Wi-Fi password updated.
           </p>
         </div>
 
         <div className="celebration__memories">
-          <h3 className="celebration__memories-title">Our Memories 📸</h3>
+          <h3 className="celebration__memories-title">Our Memories</h3>
           <div className="celebration__carousel">
             <button className="celebration__carousel-btn" onClick={prevPhoto}>‹</button>
             <div className="celebration__photo-frame">
@@ -131,7 +130,7 @@ export default function Celebration() {
                 }}
               />
               <div className="celebration__placeholder-text">
-                📷 Add photo here<br />
+                Add photo here<br />
                 <small>/public/memories/photo{currentPhoto + 1}.jpg</small>
               </div>
               <p className="celebration__caption">{MEMORIES[currentPhoto].caption}</p>
@@ -150,24 +149,17 @@ export default function Celebration() {
         </div>
 
         <div className="celebration__countdown">
-          <p className="celebration__countdown-label">Happy Valentine's Day! 💌</p>
+          <p className="celebration__countdown-label">Happy Valentine's Day!</p>
           <p className="celebration__final">
             Here's to us, to love, and to all the beautiful moments yet to come.
           </p>
-          <div className="celebration__hearts-row">
-            {'💕💖💗💘💝💕💖💗💘💝'.split('').map((h, i) => (
-              <span key={i} className="celebration__heart-icon" style={{ animationDelay: `${i * 0.1}s` }}>
-                {h}
-              </span>
-            ))}
-          </div>
         </div>
 
         <button
           className="celebration__restart"
           onClick={() => window.location.reload()}
         >
-          🔄 Read the letter again
+          Read the letter again
         </button>
       </div>
     </div>

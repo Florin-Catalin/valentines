@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1.5rem;
   position: relative;
   z-index: 1;
   animation: fadeIn 1s ease-out;
@@ -14,19 +14,9 @@
   animation: fadeOut 0.8s ease-in forwards;
 }
 
-.landing__envelope {
-  margin-bottom: 2rem;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-.landing__envelope-icon {
-  font-size: 6rem;
-  filter: drop-shadow(0 10px 30px rgba(233, 30, 99, 0.3));
-}
-
 .landing__title {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-size: clamp(1.8rem, 6vw, 3rem);
   color: #880e4f;
   text-align: center;
   margin-bottom: 0.5rem;
@@ -34,9 +24,9 @@
 }
 
 .landing__subtitle {
-  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  font-size: clamp(0.85rem, 2.5vw, 1.1rem);
   color: #ad1457;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   opacity: 0.8;
   text-align: center;
 }
@@ -46,18 +36,13 @@
   color: white;
   border: none;
   padding: 1rem 2.5rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-family: 'Quicksand', sans-serif;
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   box-shadow: 0 8px 30px rgba(233, 30, 99, 0.4);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
 }
 
 .landing__btn:hover {
@@ -67,62 +52,6 @@
 
 .landing__btn:active {
   transform: translateY(-1px) scale(0.98);
-}
-
-.landing__btn::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  transform: rotate(45deg);
-  animation: btnShimmer 3s ease-in-out infinite;
-}
-
-.landing__btn-icon {
-  font-size: 1.4rem;
-}
-
-.landing__sparkles {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.landing__sparkle {
-  position: absolute;
-  font-size: 1.2rem;
-  animation: sparkle 3s ease-in-out infinite;
-  animation-delay: var(--delay);
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-@keyframes sparkle {
-  0%, 100% {
-    transform: translate(0, 0) scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(var(--x), var(--y)) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes btnShimmer {
-  0%, 100% { transform: rotate(45deg) translateX(-200%); }
-  50% { transform: rotate(45deg) translateX(200%); }
 }
 
 @keyframes fadeIn {

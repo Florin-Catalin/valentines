@@ -68,11 +68,11 @@ export default function Captcha({ onVerified }) {
 
   const getStatusMessage = () => {
     if (selectedCount === 0) {
-      return "Select all photos of the most beautiful girl 🤔"
+      return "Select all photos of the most beautiful girl"
     } else if (selectedCount === TOTAL_TO_SELECT) {
-      return "Perfect! You found them all! 💖"
+      return "Perfect! You found them all!"
     } else {
-      return `Found ${selectedCount}/${TOTAL_TO_SELECT}! Keep going... 💕`
+      return `Found ${selectedCount}/${TOTAL_TO_SELECT}! Keep going...`
     }
   }
 
@@ -82,7 +82,6 @@ export default function Captcha({ onVerified }) {
     <div className="captcha">
       <div className="captcha__card">
         <div className="captcha__header">
-          <div className="captcha__icon">🤖</div>
           <h2 className="captcha__title">Security Verification</h2>
           <p className="captcha__subtitle">
             Prove you're not a robot
@@ -91,7 +90,6 @@ export default function Captcha({ onVerified }) {
 
         <div className="captcha__challenge">
           <div className="captcha__challenge-bar">
-            <span className="captcha__challenge-icon">🔒</span>
             <span>Select <strong>all photos</strong> of the most beautiful girl</span>
           </div>
         </div>
@@ -140,7 +138,6 @@ export default function Captcha({ onVerified }) {
         </div>
 
         <div className="captcha__footer">
-          <span className="captcha__logo">💘</span>
           <span className="captcha__brand">luvCAPTCHA</span>
           <span className="captcha__privacy">Privacy · Terms</span>
         </div>

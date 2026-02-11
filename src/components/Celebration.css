@@ -20,7 +20,7 @@
   z-index: 1;
   max-width: 600px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 3rem;
+  padding: 1.5rem 1rem 2.5rem;
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease-out;
@@ -33,23 +33,18 @@
 
 .celebration__header {
   text-align: center;
-  margin-bottom: 2rem;
-}
-
-.celebration__big-heart {
-  font-size: 5rem;
-  animation: heartPulse 1s ease-in-out infinite;
+  margin-bottom: 1.5rem;
 }
 
 .celebration__title {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-size: clamp(2rem, 8vw, 3.5rem);
   color: #880e4f;
   text-shadow: 0 2px 15px rgba(233, 30, 99, 0.2);
 }
 
 .celebration__subtitle {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #ad1457;
   margin-top: 0.5rem;
 }
@@ -57,22 +52,22 @@
 .celebration__message {
   background: white;
   border-radius: 16px;
-  padding: 2rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 10px 40px rgba(136, 14, 79, 0.1);
   text-align: center;
-  line-height: 1.8;
+  line-height: 1.7;
   color: #5d3a5a;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
 .celebration__memories {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .celebration__memories-title {
   font-family: 'Dancing Script', cursive;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #880e4f;
   text-align: center;
   margin-bottom: 1rem;
@@ -177,30 +172,17 @@
 
 .celebration__countdown-label {
   font-family: 'Dancing Script', cursive;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #880e4f;
   margin-bottom: 0.5rem;
 }
 
 .celebration__final {
   color: #ad1457;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   max-width: 400px;
   margin: 0 auto 1rem;
-}
-
-.celebration__hearts-row {
-  display: flex;
-  justify-content: center;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-}
-
-.celebration__heart-icon {
-  font-size: 1.5rem;
-  animation: heartWave 2s ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
 }
 
 .celebration__restart {
@@ -209,8 +191,8 @@
   background: rgba(255, 255, 255, 0.8);
   border: 2px solid #f48fb1;
   color: #c2185b;
-  padding: 0.8rem 2rem;
-  font-size: 0.95rem;
+  padding: 0.75rem 2rem;
+  font-size: 0.9rem;
   font-family: 'Quicksand', sans-serif;
   font-weight: 600;
   border-radius: 50px;
@@ -222,11 +204,6 @@
   background: white;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
-}
-
-@keyframes heartPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
 }
 
 @keyframes heartWave {
