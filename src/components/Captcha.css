@@ -1,0 +1,233 @@
+.captcha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.captcha__card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(136, 14, 79, 0.15), 0 0 0 1px rgba(233, 30, 99, 0.08);
+  max-width: 440px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.captcha__header {
+  padding: 1.5rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.captcha__icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  animation: robotWiggle 2s ease-in-out infinite;
+}
+
+.captcha__title {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.2rem;
+}
+
+.captcha__subtitle {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.captcha__challenge {
+  padding: 0 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.captcha__challenge-bar {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px solid #f48fb1;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #880e4f;
+}
+
+.captcha__challenge-icon {
+  font-size: 1.2rem;
+}
+
+.captcha__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 0 1.5rem;
+}
+
+.captcha__item {
+  aspect-ratio: 1;
+  border: 3px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #f5f5f5;
+  padding: 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.captcha__item:hover:not(:disabled) {
+  border-color: #f48fb1;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
+}
+
+.captcha__item--selected {
+  border-color: #e91e63 !important;
+  transform: scale(1.05);
+}
+
+.captcha__item--correct {
+  border-color: #4caf50 !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+}
+
+.captcha__item--shake {
+  animation: shake 0.5s ease-in-out;
+  border-color: #f44336 !important;
+}
+
+.captcha__img-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captcha__img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.captcha__placeholder-text {
+  display: none;
+  text-align: center;
+  color: #bbb;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.captcha__placeholder .captcha__placeholder-text {
+  display: block;
+}
+
+.captcha__placeholder {
+  background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+}
+
+.captcha__checkmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: #4caf50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  animation: popIn 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.captcha__status {
+  padding: 1rem 1.5rem 0.5rem;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captcha__message {
+  text-align: center;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.captcha__message--wrong {
+  color: #e53935;
+}
+
+.captcha__message--correct {
+  color: #4caf50;
+  font-size: 1.05rem;
+}
+
+.captcha__message--hint {
+  color: #999;
+  font-style: italic;
+}
+
+.captcha__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 0.5rem;
+}
+
+.captcha__logo {
+  font-size: 1rem;
+}
+
+.captcha__brand {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e91e63;
+}
+
+.captcha__privacy {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: #bbb;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) scale(1.05); }
+  20% { transform: translateX(-8px) scale(1.05); }
+  40% { transform: translateX(8px) scale(1.05); }
+  60% { transform: translateX(-5px) scale(1.05); }
+  80% { transform: translateX(5px) scale(1.05); }
+}
+
+@keyframes popIn {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  70% { transform: translate(-50%, -50%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes robotWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

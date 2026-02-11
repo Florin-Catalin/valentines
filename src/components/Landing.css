@@ -1,0 +1,136 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 1s ease-out;
+}
+
+.landing--exit {
+  animation: fadeOut 0.8s ease-in forwards;
+}
+
+.landing__envelope {
+  margin-bottom: 2rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.landing__envelope-icon {
+  font-size: 6rem;
+  filter: drop-shadow(0 10px 30px rgba(233, 30, 99, 0.3));
+}
+
+.landing__title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: #880e4f;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 10px rgba(233, 30, 99, 0.2);
+}
+
+.landing__subtitle {
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  color: #ad1457;
+  margin-bottom: 2.5rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.landing__btn {
+  background: linear-gradient(135deg, #e91e63, #c2185b);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 30px rgba(233, 30, 99, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing__btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(233, 30, 99, 0.5);
+}
+
+.landing__btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.landing__btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: btnShimmer 3s ease-in-out infinite;
+}
+
+.landing__btn-icon {
+  font-size: 1.4rem;
+}
+
+.landing__sparkles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.landing__sparkle {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: sparkle 3s ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(var(--x), var(--y)) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes btnShimmer {
+  0%, 100% { transform: rotate(45deg) translateX(-200%); }
+  50% { transform: rotate(45deg) translateX(200%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.8); }
+}
