@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import './ValentineQuestion.css'
 
 const YES_MESSAGES = [
@@ -7,6 +7,10 @@ const YES_MESSAGES = [
   "Absolutely! 💕",
   "100% Yes! 💗",
   "YESSS! 🎉",
+  "YES YES YES! 💗💗",
+  "Click me already! 💘💘💘",
+  "I'm taking over! 🥰🥰🥰",
+  "YES IS THE ONLY OPTION! 💕💕💕💕",
 ]
 
 export default function ValentineQuestion({ onYes }) {
@@ -30,7 +34,7 @@ export default function ValentineQuestion({ onYes }) {
     return texts[Math.min(noCount, texts.length - 1)]
   }
 
-  const moveNoButton = useCallback(() => {
+  const moveNoButton = useCallback((mouseX, mouseY) => {
     if (!noButtonRef.current) return
 
     const btn = noButtonRef.current
@@ -38,20 +42,65 @@ export default function ValentineQuestion({ onYes }) {
     const parentRect = parent.getBoundingClientRect()
     const btnRect = btn.getBoundingClientRect()
 
-    const maxX = parentRect.width - btnRect.width - 20
-    const maxY = parentRect.height - btnRect.height - 20
+    // Calculate center of button
+    const btnCenterX = btnRect.left + btnRect.width / 2
+    const btnCenterY = btnRect.top + btnRect.height / 2
 
-    const newX = Math.random() * maxX
-    const newY = Math.random() * maxY
+    // Calculate distance from mouse/touch
+    const deltaX = btnCenterX - mouseX
+    const deltaY = btnCenterY - mouseY
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
-    btn.style.position = 'absolute'
-    btn.style.left = `${newX}px`
-    btn.style.top = `${newY}px`
-    btn.style.transition = 'all 0.3s ease'
+    // If mouse is close, move button away
+    if (distance < 150) {
+      // Calculate escape direction (away from mouse)
+      const angle = Math.atan2(deltaY, deltaX)
+      const escapeDistance = 200 + Math.random() * 100
+      
+      let newX = btnRect.left - parentRect.left + Math.cos(angle) * escapeDistance
+      let newY = btnRect.top - parentRect.top + Math.sin(angle) * escapeDistance
 
-    setNoCount(prev => prev + 1)
-    setYesScale(prev => Math.min(prev + 0.15, 2.2))
-  }, [])
+      // Allow button to go off-screen after a few attempts
+      if (noCount > 4) {
+        // Let it escape anywhere, even off-screen
+        newX = Math.random() * window.innerWidth - parentRect.left
+        newY = Math.random() * window.innerHeight - parentRect.top
+      } else {
+        // Keep it somewhat on screen initially
+        const margin = 20
+        newX = Math.max(margin, Math.min(newX, parentRect.width - btnRect.width - margin))
+        newY = Math.max(margin, Math.min(newY, parentRect.height - btnRect.height - margin))
+      }
+
+      btn.style.position = 'absolute'
+      btn.style.left = `${newX}px`
+      btn.style.top = `${newY}px`
+      btn.style.transition = 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+
+      setNoCount(prev => prev + 1)
+      setYesScale(prev => prev + 0.3) // Remove limit, keep growing!
+    }
+  }, [noCount])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      moveNoButton(e.clientX, e.clientY)
+    }
+
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        moveNoButton(e.touches[0].clientX, e.touches[0].clientY)
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('touchmove', handleTouchMove)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('touchmove', handleTouchMove)
+    }
+  }, [moveNoButton])
 
   const handleYes = () => {
     onYes()
@@ -73,8 +122,10 @@ export default function ValentineQuestion({ onYes }) {
             {noCount < 3
               ? "Come on, you know you want to say yes! 💕"
               : noCount < 6
-              ? "The 'No' button is getting scared of you..."
-              : "The 'No' button can't run forever! 😏"
+              ? "The 'No' button is running away from you! 🏃"
+              : noCount < 10
+              ? "It's escaping! Just click YES! 😂"
+              : "The 'No' button has left the building! 🚀"
             }
           </p>
         )}
@@ -91,9 +142,13 @@ export default function ValentineQuestion({ onYes }) {
           <button
             ref={noButtonRef}
             className="valentine-q__no"
-            onMouseEnter={moveNoButton}
-            onTouchStart={moveNoButton}
-            onClick={moveNoButton}
+            onMouseDown={(e) => {
+              e.preventDefault()
+              moveNoButton(e.clientX, e.clientY)
+            }}
+            onClick={(e) => {
+              e.preventDefault()
+            }}
           >
             {getNoText()}
           </button>

@@ -43,11 +43,13 @@
 .valentine-q__buttons {
   position: relative;
   min-height: 200px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
+  overflow: visible;
 }
 
 .valentine-q__yes {
@@ -61,14 +63,16 @@
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
-  transition: all 0.3s ease;
-  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 999;
   white-space: nowrap;
+  position: relative;
 }
 
 .valentine-q__yes:hover {
   box-shadow: 0 12px 35px rgba(233, 30, 99, 0.5);
   filter: brightness(1.1);
+  transform: scale(1.05);
 }
 
 .valentine-q__no {
@@ -81,13 +85,16 @@
   font-weight: 500;
   border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 2;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
   white-space: nowrap;
+  pointer-events: auto;
+  user-select: none;
 }
 
 .valentine-q__no:hover {
   background: #eee;
+  transform: scale(1.05);
 }
 
 @keyframes heartbeat {
