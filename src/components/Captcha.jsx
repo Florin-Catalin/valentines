@@ -31,38 +31,60 @@ export default function Captcha({ onVerified }) {
     // Initially show first 6 images
     return ALL_IMAGES.slice(0, GRID_SIZE)
   })
-  const [justSelectedId, setJustSelectedId] = useState(null) // For animation
+  const [permanentlySelected, setPermanentlySelected] = useState([]) // IDs that stay selected
+  const [processing, setProcessing] = useState(new Set()) // IDs currently being processed
   const [availableIndex, setAvailableIndex] = useState(GRID_SIZE) // Next image to show
 
   const handleSelect = (image) => {
-    if (justSelectedId === image.id) return // Already being animated
+    // Prevent selecting if already processing or permanently selected
+    if (processing.has(image.id) || permanentlySelected.includes(image.id)) return
 
-    // Mark as selected for animation
-    setJustSelectedId(image.id)
+    // Mark as processing immediately
+    setProcessing(prev => new Set([...prev, image.id]))
+    
     const newCount = selectedCount + 1
     setSelectedCount(newCount)
     
     // Check if all images are selected
     if (newCount === TOTAL_TO_SELECT) {
+      // Add to permanent selection for final checkmark
+      setPermanentlySelected(prev => [...prev, image.id])
       // Victory!
       setTimeout(() => onVerified(), 1500)
-    } else {
-      // Replace this image with next available one after animation
+    } else if (newCount <= 3) {
+      // First 3 selections: fade out and replace
+      // Increment availableIndex immediately to prevent duplicates
+      const nextIndex = availableIndex
+      setAvailableIndex(nextIndex + 1)
+      
       setTimeout(() => {
         setDisplayedImages(prev => {
           const newDisplayed = [...prev]
           const index = newDisplayed.findIndex(img => img.id === image.id)
           
-          if (index !== -1 && availableIndex < ALL_IMAGES.length) {
+          if (index !== -1 && nextIndex < ALL_IMAGES.length) {
             // Replace with next image from the pool
-            newDisplayed[index] = ALL_IMAGES[availableIndex]
-            setAvailableIndex(availableIndex + 1)
+            newDisplayed[index] = ALL_IMAGES[nextIndex]
           }
           
           return newDisplayed
         })
-        setJustSelectedId(null)
+        // Remove from processing after animation
+        setProcessing(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(image.id)
+          return newSet
+        })
       }, 600)
+    } else {
+      // Selections 4+: stay visible with green checkmark
+      setPermanentlySelected(prev => [...prev, image.id])
+      // Remove from processing immediately since no animation needed
+      setProcessing(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(image.id)
+        return newSet
+      })
     }
   }
 
@@ -96,15 +118,16 @@ export default function Captcha({ onVerified }) {
 
         <div className="captcha__grid">
           {displayedImages.map(image => {
-            const isSelected = justSelectedId === image.id
+            const isProcessing = processing.has(image.id)
+            const isPermanentlySelected = permanentlySelected.includes(image.id)
             
             return (
               <button
                 key={image.id}
                 className={`captcha__item ${
-                  isSelected ? 'captcha__item--correct captcha__item--fade-out' : ''
-                }`}
-                onClick={() => !isSelected ? handleSelect(image) : null}
+                  isProcessing ? 'captcha__item--correct captcha__item--fade-out' : ''
+                } ${isPermanentlySelected ? 'captcha__item--correct' : ''}`}
+                onClick={() => !isProcessing && !isPermanentlySelected ? handleSelect(image) : null}
                 disabled={isComplete}
               >
                 <div className="captcha__img-wrapper">
@@ -117,11 +140,10 @@ export default function Captcha({ onVerified }) {
                     }}
                   />
                   <div className="captcha__placeholder-text">
-                    📷<br/>
                     <small>Add photo</small>
                   </div>
                 </div>
-                {isSelected && (
+                {(isProcessing || isPermanentlySelected) && (
                   <div className="captcha__checkmark">✓</div>
                 )}
               </button>

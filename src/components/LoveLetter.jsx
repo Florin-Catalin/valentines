@@ -1,105 +1,127 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './LoveLetter.css'
 
 /*
- * ✏️ CUSTOMIZE YOUR LOVE LETTER:
+ * ✏️ CUSTOMIZE YOUR LOVE STORY:
  * 
- * Edit the text below to write your own message!
- * You can also change the name at the top.
+ * Edit the chapters below to tell your own story!
+ * Each chapter can have a video, title, and description.
  */
 
-const LETTER_CONTENT = {
-  to: "My Dearest",
-  paragraphs: [
-    "From the moment I met you, everything changed. The world became more colorful, the days brighter, and my heart found its rhythm in your smile.",
-    "Every moment with you feels like a beautiful dream I never want to wake up from. Your laugh is my favorite sound, your eyes are my favorite sight, and your happiness is my greatest wish.",
-    "You make the ordinary extraordinary. A simple walk becomes an adventure, a quiet evening becomes a treasure, and every day becomes a gift because I get to share it with you.",
-    "I love the way you scrunch your nose when you laugh. I love how passionate you get about the things you care about. I love every little thing that makes you, you.",
-    "Thank you for being my best friend, my confidant, my home. Thank you for loving me in all the ways I never knew I needed.",
-  ],
-  closing: "Forever & Always Yours",
-  signature: "With all my love 💕",
-}
+const STORY_CHAPTERS = [
+  {
+    id: 1,
+    title: "Where It All Began",
+    description: "We were just friends... Dance partners moving to the same rhythm, not knowing our hearts were already choreographing something beautiful.",
+    video: "/video/cat-danceavenue.mp4",
+    textBefore: true, // Show text before video
+  },
+  {
+    id: 2,
+    title: "Dancing Under the Sky",
+    description: "That rooftop choreography... The city below us, the sky above, and in that moment I realized - every step with you felt like home.",
+    video: "/video/coregrafie-rooftop.mp4",
+    textBefore: false, // Show text after video
+  },
+  {
+    id: 3,
+    title: "Our Story",
+    description: "From dance partners to life partners. Every twirl, every step, every beat led us here. And this is just the beginning of our forever dance together.",
+    video: null, // Text-only chapter
+    textBefore: true,
+  },
+]
 
 export default function LoveLetter({ onFinished }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [visibleParagraphs, setVisibleParagraphs] = useState(0)
-  const [showClosing, setShowClosing] = useState(false)
-  const [showButton, setShowButton] = useState(false)
+  const [currentChapter, setCurrentChapter] = useState(0)
+  const [showContent, setShowContent] = useState(false)
+  const [videoEnded, setVideoEnded] = useState(false)
+  const videoRef = useRef(null)
+
+  const chapter = STORY_CHAPTERS[currentChapter]
+  const isLastChapter = currentChapter === STORY_CHAPTERS.length - 1
 
   useEffect(() => {
-    // Open the envelope after a moment
-    const openTimer = setTimeout(() => setIsOpen(true), 800)
-    return () => clearTimeout(openTimer)
-  }, [])
+    // Reset states when chapter changes
+    setShowContent(false)
+    setVideoEnded(false)
+    
+    // Show content after a moment
+    const timer = setTimeout(() => setShowContent(true), 500)
+    return () => clearTimeout(timer)
+  }, [currentChapter])
 
-  useEffect(() => {
-    if (!isOpen) return
+  const handleVideoEnd = () => {
+    setVideoEnded(true)
+  }
 
-    // Reveal paragraphs one by one
-    const timers = LETTER_CONTENT.paragraphs.map((_, i) =>
-      setTimeout(() => setVisibleParagraphs(i + 1), 1000 + i * 1200)
-    )
-
-    const closingTimer = setTimeout(
-      () => setShowClosing(true),
-      1000 + LETTER_CONTENT.paragraphs.length * 1200
-    )
-
-    const btnTimer = setTimeout(
-      () => setShowButton(true),
-      1800 + LETTER_CONTENT.paragraphs.length * 1200
-    )
-
-    return () => {
-      timers.forEach(clearTimeout)
-      clearTimeout(closingTimer)
-      clearTimeout(btnTimer)
+  const handleNext = () => {
+    if (isLastChapter) {
+      onFinished()
+    } else {
+      setCurrentChapter(prev => prev + 1)
     }
-  }, [isOpen])
+  }
+
+  const canProceed = !chapter.video || videoEnded
 
   return (
-    <div className="love-letter">
-      <div className={`love-letter__envelope ${isOpen ? 'love-letter__envelope--open' : ''}`}>
-        {!isOpen && (
-          <div className="love-letter__envelope-front">
-            <div className="love-letter__seal">💌</div>
-            <p className="love-letter__opening-text">Opening your letter...</p>
+    <div className="love-story">
+      <div className="love-story__container">
+        
+        {/* Chapter indicator */}
+        <div className="love-story__progress">
+          {STORY_CHAPTERS.map((_, idx) => (
+            <div
+              key={idx}
+              className={`love-story__progress-dot ${
+                idx === currentChapter ? 'love-story__progress-dot--active' : ''
+              } ${idx < currentChapter ? 'love-story__progress-dot--completed' : ''}`}
+            />
+          ))}
+        </div>
+
+        {/* Text before video */}
+        {chapter.textBefore && (
+          <div className={`love-story__text ${showContent ? 'love-story__text--visible' : ''}`}>
+            <h2 className="love-story__title">{chapter.title}</h2>
+            <p className="love-story__description">{chapter.description}</p>
           </div>
         )}
 
-        {isOpen && (
-          <div className="love-letter__paper">
-            <div className="love-letter__paper-texture" />
-
-            <div className="love-letter__content">
-              <p className="love-letter__to">{LETTER_CONTENT.to},</p>
-
-              {LETTER_CONTENT.paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  className={`love-letter__paragraph ${
-                    i < visibleParagraphs ? 'love-letter__paragraph--visible' : ''
-                  }`}
-                >
-                  {para}
-                </p>
-              ))}
-
-              {showClosing && (
-                <div className="love-letter__closing">
-                  <p className="love-letter__closing-text">{LETTER_CONTENT.closing},</p>
-                  <p className="love-letter__signature">{LETTER_CONTENT.signature}</p>
-                </div>
-              )}
-            </div>
-
-            {showButton && (
-              <button className="love-letter__continue" onClick={onFinished}>
-                Continue → One More Thing...
-              </button>
+        {/* Video */}
+        {chapter.video && (
+          <div className={`love-story__video-container ${showContent ? 'love-story__video-container--visible' : ''}`}>
+            <video
+              ref={videoRef}
+              className="love-story__video"
+              src={chapter.video}
+              controls
+              playsInline
+              onEnded={handleVideoEnd}
+            />
+            {!videoEnded && (
+              <p className="love-story__video-hint">Watch to continue...</p>
             )}
           </div>
+        )}
+
+        {/* Text after video */}
+        {!chapter.textBefore && chapter.video && videoEnded && (
+          <div className="love-story__text love-story__text--visible">
+            <h2 className="love-story__title">{chapter.title}</h2>
+            <p className="love-story__description">{chapter.description}</p>
+          </div>
+        )}
+
+        {/* Navigation button */}
+        {canProceed && showContent && (
+          <button
+            className="love-story__button"
+            onClick={handleNext}
+          >
+            {isLastChapter ? "Continue → What's Your Answer?" : "Next Chapter →"}
+          </button>
         )}
       </div>
     </div>

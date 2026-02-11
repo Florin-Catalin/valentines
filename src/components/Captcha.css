@@ -123,6 +123,16 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
+}
+
+/* Focus on the left portion for photo4 and photo5 where faces are */
+.captcha__item img[src*="photo4.jpg"] {
+  object-position: 25% center !important;
+}
+
+.captcha__item img[src*="photo5.jpg"] {
+  object-position: 25% center !important;
 }
 
 .captcha__placeholder-text {
