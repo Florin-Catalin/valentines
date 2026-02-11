@@ -45,13 +45,31 @@ export default function Captcha({ onVerified }) {
     const newCount = selectedCount + 1
     setSelectedCount(newCount)
     
+    // Selections 4-8: stay visible with green checkmark
+    if (newCount > 3 && newCount < TOTAL_TO_SELECT) {
+      setPermanentlySelected(prev => [...prev, image.id])
+      // Remove from processing immediately since no animation needed
+      setProcessing(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(image.id)
+        return newSet
+      })
+    }
     // Check if all images are selected
-    if (newCount === TOTAL_TO_SELECT) {
+    else if (newCount === TOTAL_TO_SELECT) {
       // Add to permanent selection for final checkmark
       setPermanentlySelected(prev => [...prev, image.id])
+      // Remove from processing
+      setProcessing(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(image.id)
+        return newSet
+      })
       // Victory!
       setTimeout(() => onVerified(), 1500)
-    } else if (newCount <= 3) {
+    }
+    // First 3 selections: fade out and replace
+    else if (newCount <= 3) {
       // First 3 selections: fade out and replace
       // Increment availableIndex immediately to prevent duplicates
       const nextIndex = availableIndex
@@ -76,15 +94,6 @@ export default function Captcha({ onVerified }) {
           return newSet
         })
       }, 600)
-    } else {
-      // Selections 4+: stay visible with green checkmark
-      setPermanentlySelected(prev => [...prev, image.id])
-      // Remove from processing immediately since no animation needed
-      setProcessing(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(image.id)
-        return newSet
-      })
     }
   }
 

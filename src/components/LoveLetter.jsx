@@ -25,6 +25,20 @@ const STORY_CHAPTERS = [
   },
   {
     id: 3,
+    title: "Late Night Moments",
+    description: "Those nights after the club, when the world was quiet and it was just us... Every laugh, every conversation, every moment drew us closer.",
+    video: "/video/after-club.mp4",
+    textBefore: true,
+  },
+  {
+    id: 4,
+    title: "Our Happy Place",
+    description: "At the pub, sharing stories and dreams. In those simple moments, I knew - this is where I belong, right here with you.",
+    video: "/video/la-tevi-pub.mp4",
+    textBefore: false,
+  },
+  {
+    id: 5,
     title: "Our Story",
     description: "From dance partners to life partners. Every twirl, every step, every beat led us here. And this is just the beginning of our forever dance together.",
     video: null, // Text-only chapter
