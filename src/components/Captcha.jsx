@@ -77,8 +77,6 @@ export default function Captcha({ onVerified }) {
           const rect = el.getBoundingClientRect()
           setCaptchaFading(true)
           setExitAnimation({ src: photo2.src, rect })
-          // Call onVerified immediately so text starts typing during photo flight
-          onVerified()
         } else {
           // Fallback if ref not found
           setTimeout(() => onVerified(), 500)
@@ -203,6 +201,10 @@ export default function Captcha({ onVerified }) {
               '--start-left': `${exitAnimation.rect.left}px`,
               '--start-width': `${exitAnimation.rect.width}px`,
               '--start-height': `${exitAnimation.rect.height}px`,
+            }}
+            onAnimationEnd={() => {
+              // After the photo finishes flying to center, trigger video
+              setTimeout(() => onVerified(), 300)
             }}
           />
         </div>

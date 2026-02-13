@@ -20,8 +20,11 @@ export default function Video({ onFinished }) {
     <div className="video video--fade-in">
       {showText && (
         <div className="video__text-overlay">
-          <p className="video__text">
-            One day you walked into my life, ... and now I can't imagine it without you.
+          <p className="video__text video__text--line1">
+            One day you walked into my life, ...
+          </p>
+          <p className="video__text video__text--line2">
+            and now I can't imagine it without you.
           </p>
         </div>
       )}
