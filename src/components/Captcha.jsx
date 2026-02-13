@@ -19,6 +19,7 @@ const ALL_IMAGES = [
   { id: 6, src: '/captcha/photo6.jpg', alt: 'Photo 6' },
   { id: 7, src: '/captcha/photo7.jpg', alt: 'Photo 7' },
   { id: 8, src: '/captcha/photo8.jpg', alt: 'Photo 8' },
+  { id: 10, src: '/captcha/photo10.jpeg', alt: 'Photo 10' },
   { id: 2, src: '/captcha/photo2.jpg', alt: 'Photo 2' },
 ]
 
@@ -48,8 +49,8 @@ export default function Captcha({ onVerified }) {
     const newCount = selectedCount + 1
     setSelectedCount(newCount)
     
-    // Selections 4-8: stay visible with green checkmark
-    if (newCount > 3 && newCount < TOTAL_TO_SELECT) {
+    // Selections 5-9: stay visible with green checkmark
+    if (newCount > 4 && newCount < TOTAL_TO_SELECT) {
       setPermanentlySelected(prev => [...prev, image.id])
       // Remove from processing immediately since no animation needed
       setProcessing(prev => {
@@ -83,9 +84,9 @@ export default function Captcha({ onVerified }) {
         }
       }, 1200)
     }
-    // First 3 selections: fade out and replace
-    else if (newCount <= 3) {
-      // First 3 selections: fade out and replace
+    // First 4 selections: fade out and replace
+    else if (newCount <= 4) {
+      // First 4 selections: fade out and replace
       // Increment availableIndex immediately to prevent duplicates
       const nextIndex = availableIndex
       setAvailableIndex(nextIndex + 1)

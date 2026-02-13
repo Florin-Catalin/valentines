@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import ZoomMap from './ZoomMap'
 import './LoveLetter.css'
 
 /*
@@ -12,33 +13,43 @@ const STORY_CHAPTERS = [
   {
     id: 1,
     title: "Where It All Began",
-    description: "We were just friends... Dance partners moving to the same rhythm, not knowing our hearts were already choreographing something beautiful.",
-    video: "/video/cat-danceavenue.mp4",
-    textBefore: true, // Show text before video
+    description: null,
+    video: null,
+    map: true,
+    mapVideo: "/video/afro-house.mp4", // Plays fullscreen after map zoom
+    mapVideoTitle: "Did I just meet my wife .. in 2024 ? Look at these moves",
+    textBefore: true,
   },
   {
     id: 2,
+    title: "The First Spark",
+    description: "Look at you ... I was quite missing you back then, only to find you with a cat, then we went after cat food",
+    video: "/video/cat-danceavenue.mp4",
+    textBefore: true,
+  },
+  {
+    id: 3,
     title: "Dancing Under the Sky",
-    description: "That rooftop choreography... The city below us, the sky above, and in that moment I realized - every step with you felt like home.",
+    description: "So Andreea, what about a 3rd choreo",
     video: "/video/coregrafie-rooftop.mp4",
     textBefore: false, // Show text after video
   },
   {
-    id: 3,
+    id: 4,
     title: "Late Night Moments",
-    description: "Those nights after the club, when the world was quiet and it was just us... Every laugh, every conversation, every moment drew us closer.",
+    description: "I could have post the Piezisa dance but .. no",
     video: "/video/after-club.mp4",
     textBefore: true,
   },
   {
-    id: 4,
-    title: "Our Happy Place",
+    id: 5,
+    title: "maybe your person is just in front of your eyes",
     description: "At the pub, sharing stories and dreams. In those simple moments, I knew - this is where I belong, right here with you.",
     video: "/video/la-tevi-pub.mp4",
     textBefore: false,
   },
   {
-    id: 5,
+    id: 6,
     title: "Our Story",
     description: "From dance partners to life partners. Every twirl, every step, every beat led us here. And this is just the beginning of our forever dance together.",
     video: null, // Text-only chapter
@@ -50,7 +61,10 @@ export default function LoveLetter({ onFinished }) {
   const [currentChapter, setCurrentChapter] = useState(0)
   const [showContent, setShowContent] = useState(false)
   const [videoEnded, setVideoEnded] = useState(false)
+  const [mapVideoPlaying, setMapVideoPlaying] = useState(false) // fullscreen video after map
+  const [mapFading, setMapFading] = useState(false) // fade out map before video
   const videoRef = useRef(null)
+  const mapVideoRef = useRef(null)
 
   const chapter = STORY_CHAPTERS[currentChapter]
   const isLastChapter = currentChapter === STORY_CHAPTERS.length - 1
@@ -69,6 +83,26 @@ export default function LoveLetter({ onFinished }) {
     setVideoEnded(true)
   }
 
+  const handleMapZoomComplete = () => {
+    // Fade out the map/title, then show fullscreen video
+    setMapFading(true)
+    setTimeout(() => {
+      setMapVideoPlaying(true)
+      // Play the video with sound
+      setTimeout(() => {
+        if (mapVideoRef.current) {
+          mapVideoRef.current.play().catch(console.error)
+        }
+      }, 100)
+    }, 800)
+  }
+
+  const handleMapVideoEnd = () => {
+    setMapVideoPlaying(false)
+    setMapFading(false)
+    setCurrentChapter(prev => prev + 1)
+  }
+
   const handleNext = () => {
     if (isLastChapter) {
       onFinished()
@@ -77,11 +111,11 @@ export default function LoveLetter({ onFinished }) {
     }
   }
 
-  const canProceed = !chapter.video || videoEnded
+  const canProceed = (!chapter.video || videoEnded) && !chapter.map
 
   return (
     <div className="love-story">
-      <div className="love-story__container">
+      <div className={`love-story__container ${mapFading ? 'love-story__container--fading' : ''}`}>
         
         {/* Chapter indicator */}
         <div className="love-story__progress">
@@ -99,7 +133,16 @@ export default function LoveLetter({ onFinished }) {
         {chapter.textBefore && (
           <div className={`love-story__text ${showContent ? 'love-story__text--visible' : ''}`}>
             <h2 className="love-story__title">{chapter.title}</h2>
-            <p className="love-story__description">{chapter.description}</p>
+            {chapter.description && (
+              <p className="love-story__description">{chapter.description}</p>
+            )}
+          </div>
+        )}
+
+        {/* Map for chapter 1 */}
+        {chapter.map && showContent && !mapVideoPlaying && (
+          <div className={`love-story__map-container ${showContent ? 'love-story__video-container--visible' : ''}`}>
+            <ZoomMap onZoomComplete={handleMapZoomComplete} />
           </div>
         )}
 
@@ -138,6 +181,23 @@ export default function LoveLetter({ onFinished }) {
           </button>
         )}
       </div>
+
+      {/* Fullscreen video after map zoom (afro-house) */}
+      {mapVideoPlaying && chapter.mapVideo && (
+        <div className="love-story__fullscreen-video">
+          {chapter.mapVideoTitle && (
+            <h2 className="love-story__fullscreen-title">{chapter.mapVideoTitle}</h2>
+          )}
+          <video
+            ref={mapVideoRef}
+            className="love-story__fullscreen-player"
+            src={chapter.mapVideo}
+            playsInline
+            autoPlay
+            onEnded={handleMapVideoEnd}
+          />
+        </div>
+      )}
     </div>
   )
 }

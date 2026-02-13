@@ -91,6 +91,19 @@
   transform: translateY(0);
 }
 
+.love-story__map-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out 0.3s;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.love-story__map-container.love-story__video-container--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .love-story__video {
   width: 100%;
   max-height: 70vh;
@@ -150,6 +163,61 @@
   50% {
     opacity: 1;
   }
+}
+
+/* Container fading out before fullscreen video */
+.love-story__container--fading {
+  animation: containerFadeOut 0.8s ease-in forwards;
+}
+
+@keyframes containerFadeOut {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.95); }
+}
+
+/* Fullscreen video after map (afro-house) */
+.love-story__fullscreen-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #ec407a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 1000;
+  animation: fullscreenVideoIn 1s ease-out;
+}
+
+.love-story__fullscreen-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  color: #880e4f;
+  text-align: center;
+  max-width: 700px;
+  line-height: 1.4;
+  animation: titleSlideIn 0.8s ease-out 0.3s both;
+}
+
+@keyframes titleSlideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.love-story__fullscreen-player {
+  width: 70vmin;
+  height: 70vmin;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fullscreenVideoIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (max-width: 500px) {

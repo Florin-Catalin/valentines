@@ -4,6 +4,7 @@ import Landing from './components/Landing'
 import Captcha from './components/Captcha'
 import Video from './components/Video'
 import LoveLetter from './components/LoveLetter'
+import MatchyGallery from './components/MatchyGallery'
 import ValentineQuestion from './components/ValentineQuestion'
 import Celebration from './components/Celebration'
 import './App.css'
@@ -22,6 +23,7 @@ const STAGES = {
   CAPTCHA: 'captcha',
   VIDEO: 'video',
   LETTER: 'letter',
+  MATCHING: 'matching',
   QUESTION: 'question',
   CELEBRATION: 'celebration',
 }
@@ -46,7 +48,11 @@ function App() {
       )}
 
       {stage === STAGES.LETTER && (
-        <LoveLetter onFinished={() => setStage(STAGES.QUESTION)} />
+        <LoveLetter onFinished={() => setStage(STAGES.MATCHING)} />
+      )}
+
+      {stage === STAGES.MATCHING && (
+        <MatchyGallery onFinished={() => setStage(STAGES.QUESTION)} />
       )}
 
       {stage === STAGES.QUESTION && (

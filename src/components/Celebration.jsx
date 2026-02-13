@@ -112,40 +112,8 @@ export default function Celebration() {
           <p>
             You just made me the happiest person in the world! 
             This Valentine's Day and every day after, I promise to love you, 
-            make you laugh, and always keep the Wi-Fi password updated.
+            make you laugh, and wake up and make you coffee.
           </p>
-        </div>
-
-        <div className="celebration__memories">
-          <h3 className="celebration__memories-title">Our Memories</h3>
-          <div className="celebration__carousel">
-            <button className="celebration__carousel-btn" onClick={prevPhoto}>‹</button>
-            <div className="celebration__photo-frame">
-              <img
-                src={MEMORIES[currentPhoto].src}
-                alt={MEMORIES[currentPhoto].caption}
-                onError={(e) => {
-                  e.target.style.display = 'none'
-                  e.target.parentElement.classList.add('celebration__placeholder')
-                }}
-              />
-              <div className="celebration__placeholder-text">
-                Add photo here<br />
-                <small>/public/memories/photo{currentPhoto + 1}.jpg</small>
-              </div>
-              <p className="celebration__caption">{MEMORIES[currentPhoto].caption}</p>
-            </div>
-            <button className="celebration__carousel-btn" onClick={nextPhoto}>›</button>
-          </div>
-          <div className="celebration__dots">
-            {MEMORIES.map((_, i) => (
-              <button
-                key={i}
-                className={`celebration__dot ${i === currentPhoto ? 'celebration__dot--active' : ''}`}
-                onClick={() => setCurrentPhoto(i)}
-              />
-            ))}
-          </div>
         </div>
 
         <div className="celebration__countdown">
