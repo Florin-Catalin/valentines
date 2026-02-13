@@ -97,3 +97,52 @@
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Kiss image transition */
+.valentine-q__card--hidden {
+  animation: cardFadeOut 0.8s ease-in forwards;
+}
+
+@keyframes cardFadeOut {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+.valentine-q__kiss-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #ec407a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: kissOverlayIn 1s ease-out;
+}
+
+.valentine-q__kiss-img {
+  width: 70vmin;
+  height: 70vmin;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.4);
+  animation: kissZoomIn 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes kissOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes kissZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

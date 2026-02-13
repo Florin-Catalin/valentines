@@ -16,6 +16,7 @@ const YES_MESSAGES = [
 export default function ValentineQuestion({ onYes }) {
   const [noCount, setNoCount] = useState(0)
   const [yesScale, setYesScale] = useState(1)
+  const [showKiss, setShowKiss] = useState(false)
   const noButtonRef = useRef(null)
 
   const getNoText = () => {
@@ -103,12 +104,22 @@ export default function ValentineQuestion({ onYes }) {
   }, [moveNoButton])
 
   const handleYes = () => {
-    onYes()
+    setShowKiss(true)
+    setTimeout(() => onYes(), 3500)
   }
 
   return (
     <div className="valentine-q">
-      <div className="valentine-q__card">
+      {showKiss && (
+        <div className="valentine-q__kiss-overlay">
+          <img
+            src="/kiss.jpeg"
+            alt="Kiss"
+            className="valentine-q__kiss-img"
+          />
+        </div>
+      )}
+      <div className={`valentine-q__card ${showKiss ? 'valentine-q__card--hidden' : ''}`}>
         <h2 className="valentine-q__title">
           Will you be my Valentine?
         </h2>
