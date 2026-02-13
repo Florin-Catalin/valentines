@@ -255,3 +255,64 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* === Exit animation: photo flies to center === */
+
+.captcha--fading {
+  pointer-events: none;
+}
+
+.captcha__card--fading {
+  animation: captchaCardFadeOut 0.8s ease-in forwards;
+}
+
+@keyframes captchaCardFadeOut {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.92); }
+}
+
+.captcha__exit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.captcha__exit-photo {
+  position: fixed;
+  top: var(--start-top);
+  left: var(--start-left);
+  width: var(--start-width);
+  height: var(--start-height);
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+  animation: flyToCenter 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  z-index: 2001;
+}
+
+@keyframes flyToCenter {
+  0% {
+    top: var(--start-top);
+    left: var(--start-left);
+    width: var(--start-width);
+    height: var(--start-height);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    width: 70vmin;
+    height: 70vmin;
+    transform: translate(-50%, -50%);
+    border-radius: 16px;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+  }
+}

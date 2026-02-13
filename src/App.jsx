@@ -2,6 +2,7 @@ import { useState } from 'react'
 import FloatingHearts from './components/FloatingHearts'
 import Landing from './components/Landing'
 import Captcha from './components/Captcha'
+import Video from './components/Video'
 import LoveLetter from './components/LoveLetter'
 import ValentineQuestion from './components/ValentineQuestion'
 import Celebration from './components/Celebration'
@@ -19,6 +20,7 @@ import './App.css'
 const STAGES = {
   LANDING: 'landing',
   CAPTCHA: 'captcha',
+  VIDEO: 'video',
   LETTER: 'letter',
   QUESTION: 'question',
   CELEBRATION: 'celebration',
@@ -36,7 +38,11 @@ function App() {
       )}
 
       {stage === STAGES.CAPTCHA && (
-        <Captcha onVerified={() => setStage(STAGES.LETTER)} />
+        <Captcha onVerified={() => setStage(STAGES.VIDEO)} />
+      )}
+
+      {stage === STAGES.VIDEO && (
+        <Video onFinished={() => setStage(STAGES.LETTER)} />
       )}
 
       {stage === STAGES.LETTER && (

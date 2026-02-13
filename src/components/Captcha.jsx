@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './Captcha.css'
 
 /*
@@ -12,14 +12,14 @@ import './Captcha.css'
 // ALL photos are of her!
 const ALL_IMAGES = [
   { id: 1, src: '/captcha/photo1.jpg', alt: 'Photo 1' },
-  { id: 2, src: '/captcha/photo2.jpg', alt: 'Photo 2' },
+  { id: 9, src: '/captcha/photo9.jpg', alt: 'Photo 9' },
   { id: 3, src: '/captcha/photo3.jpg', alt: 'Photo 3' },
   { id: 4, src: '/captcha/photo4.jpg', alt: 'Photo 4' },
   { id: 5, src: '/captcha/photo5.jpg', alt: 'Photo 5' },
   { id: 6, src: '/captcha/photo6.jpg', alt: 'Photo 6' },
   { id: 7, src: '/captcha/photo7.jpg', alt: 'Photo 7' },
   { id: 8, src: '/captcha/photo8.jpg', alt: 'Photo 8' },
-  { id: 9, src: '/captcha/photo9.jpg', alt: 'Photo 9' },
+  { id: 2, src: '/captcha/photo2.jpg', alt: 'Photo 2' },
 ]
 
 const GRID_SIZE = 6 // Show 6 images at a time
@@ -34,6 +34,9 @@ export default function Captcha({ onVerified }) {
   const [permanentlySelected, setPermanentlySelected] = useState([]) // IDs that stay selected
   const [processing, setProcessing] = useState(new Set()) // IDs currently being processed
   const [availableIndex, setAvailableIndex] = useState(GRID_SIZE) // Next image to show
+  const [exitAnimation, setExitAnimation] = useState(null) // { src, rect } for the flying photo
+  const [captchaFading, setCaptchaFading] = useState(false) // fade out the captcha card
+  const itemRefs = useRef({})
 
   const handleSelect = (image) => {
     // Prevent selecting if already processing or permanently selected
@@ -65,8 +68,22 @@ export default function Captcha({ onVerified }) {
         newSet.delete(image.id)
         return newSet
       })
-      // Victory!
-      setTimeout(() => onVerified(), 1500)
+      // Victory! Start exit animation after a brief pause
+      // Always center photo2 (id: 2), not the last selected photo
+      setTimeout(() => {
+        const photo2 = displayedImages.find(img => img.id === 2)
+        const el = photo2 ? itemRefs.current[2] : null
+        if (el && photo2) {
+          const rect = el.getBoundingClientRect()
+          setCaptchaFading(true)
+          setExitAnimation({ src: photo2.src, rect })
+          // Call onVerified immediately so text starts typing during photo flight
+          onVerified()
+        } else {
+          // Fallback if ref not found
+          setTimeout(() => onVerified(), 500)
+        }
+      }, 1200)
     }
     // First 3 selections: fade out and replace
     else if (newCount <= 3) {
@@ -110,8 +127,8 @@ export default function Captcha({ onVerified }) {
   const isComplete = selectedCount === TOTAL_TO_SELECT
 
   return (
-    <div className="captcha">
-      <div className="captcha__card">
+    <div className={`captcha ${captchaFading ? 'captcha--fading' : ''}`}>
+      <div className={`captcha__card ${captchaFading ? 'captcha__card--fading' : ''}`}>
         <div className="captcha__header">
           <h2 className="captcha__title">Security Verification</h2>
           <p className="captcha__subtitle">
@@ -133,6 +150,7 @@ export default function Captcha({ onVerified }) {
             return (
               <button
                 key={image.id}
+                ref={el => { itemRefs.current[image.id] = el }}
                 className={`captcha__item ${
                   isProcessing ? 'captcha__item--correct captcha__item--fade-out' : ''
                 } ${isPermanentlySelected ? 'captcha__item--correct' : ''}`}
@@ -173,6 +191,22 @@ export default function Captcha({ onVerified }) {
           <span className="captcha__privacy">Privacy · Terms</span>
         </div>
       </div>
+
+      {exitAnimation && (
+        <div className="captcha__exit-overlay">
+          <img
+            className="captcha__exit-photo"
+            src={exitAnimation.src}
+            alt="Your photo"
+            style={{
+              '--start-top': `${exitAnimation.rect.top}px`,
+              '--start-left': `${exitAnimation.rect.left}px`,
+              '--start-width': `${exitAnimation.rect.width}px`,
+              '--start-height': `${exitAnimation.rect.height}px`,
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }
